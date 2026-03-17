@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1184463962.svg)](https://doi.org/10.5281/zenodo.19072963)
+
 # Contents
 
 * [License](#license)
