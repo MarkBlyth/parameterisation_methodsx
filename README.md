@@ -6,7 +6,7 @@
 * [Running your own parameterisation](#running-your-own-parameterisation)
 * [Reproducing the paper results](#reproducing-the-paper-results)
 
-The repo contains everything needed to reproduce the results in the MethodsX paper *Mark Blyth, Amey Gupta, Alastair Hales: How to parameterise an equivalent-circuit empirical battery model from time-domain data (2026)*. The following sections explain how the project is licensed, structured, and how to use the code. Read the project structure first, then jump from there to whatever interests you!
+The repo contains everything needed to reproduce the results in the MethodsX paper [*Mark Blyth, Amey Gupta, Alastair Hales: How to parameterise an equivalent-circuit empirical battery model from time-domain data (2026)*](https://www.sciencedirect.com/science/article/pii/S221501612600083X). The following sections explain how the project is licensed, structured, and how to use the code. Read the project structure first, then jump from there to whatever interests you!
 
 
 # License
@@ -15,20 +15,26 @@ This work is released under the GNU GPL v3 license. Loosely, this means the soft
 
 # Project structure
 
-Lab data are stored in the `research/lab_data/` directory, which contain battery cycler files from an LG M50 and NMC 622 pouch cell. Scripts for running the parameterisation and reproducing the paper's figures are in `research/scripts/`. The full process is managed automatically by `dodo.py`, which oversees the running of parameterisation scripts, and plotting of figures. Plotted figures get saved into `research/figures/` as *pgf* files, so `dodo.py` also copies them into `doc/figs/` and converts them to *png*, *svg*, and *pdf* files. A full overview of how to run this is given in the section [Reproducing the paper results](#reproducing-the-paper-results).
+This project uses a build-system so that all the results from the paper can be reproduced automatically. A full overview of how to run this is given in the section [Reproducing the paper results](#reproducing-the-paper-results).
+
+Lab data are stored in the `research/lab_data/` directory, which contain battery cycler files from an LG M50 and NMC 622 pouch cell. Scripts for running the parameterisation and reproducing the paper's figures are in `research/scripts/`. The full process is managed automatically by `dodo.py`, which oversees the running of parameterisation scripts, and plotting of figures. Plotted figures get saved into `research/figures/` as *pgf* files, so `dodo.py` also copies them into `doc/figs/` and converts them to *png*, *svg*, and *pdf* files.
 
 Probably you're here either to do your own parameterising, or to reuse the provided model. The next sections explain how to do this. Modelling and parameterisation codes are all in the `research/scripts/` directory, and parameters are shipped in `research/processed_data/`. To make life easier, the directory `try_me/` contains links to the model, parameters, and parameterisation script (note that these are symlinks, which might not play very nicely with Windows; in that case, you'll have to track down the files in the `research/` directories instead!).
+
+*If you are on Windows, the links won't work, so you will need to copy the parameter and script files into your current working directory first.*
 
 # Using the provided model and parameters
 ## Quick start
 
-An example script, `try_me/model_demo.py`, shows an example of how to use the model for an isothermal simulation. Parameters are loaded in, and a WLTP current function is defined. Voltage is plotted as a function of time. The script can be run from any standard python environment. Pip or Conda can be used to set up the python environment; see the [Reproducing the paper results](#reproducing-the-paper-results) section for details on how to do this.
+An example script, [`try_me/model_demo.py`](https://github.com/MarkBlyth/parameterisation_methodsx/blob/main/try_me/model_demo.py), shows an example of how to use the model for an isothermal simulation. Parameters are loaded in, and a WLTP current function is defined. Voltage is plotted as a function of time. The script can be run from any standard python environment. Pip or Conda can be used to set up the python environment; see the [Reproducing the paper results](#reproducing-the-paper-results) section for details on how to do this.
+
+*As before, if you are on Windows, the links won't work, so you will need to copy the parameter and script files into your current working directory first.*
 
 ## Full description
 
-An equivalent-circuit model and parameters are included with the publication. Parameters are stored in `research/processed_data/MLP001_params.csv` and `research/processed_data/MLP001_ocv.csv`, with links in the `try_me/` directory, and the model is found in `research/scripts/model.py`, linked in `try_me/`. The parameters are for a 2.2 Ah NMC622/Graphite pouch cell, as parameterised in the paper and with these scripts. The model is a 2-RC Thevenin model which takes a current profile, and predicts voltage and temperature.
+An equivalent-circuit model and parameters are included with the publication. Parameters are stored in `research/processed_data/MLP001_params.csv` and `research/processed_data/MLP001_ocv.csv`, with links in the `try_me/` directory; the model is found in `research/scripts/model.py`, linked in `try_me/`. The parameters are for a 2.2 Ah NMC622/Graphite pouch cell, as [parameterised in the paper](https://www.sciencedirect.com/science/article/pii/S221501612600083X) with these scripts. The model is a 2-RC Thevenin model which takes a current profile, and predicts voltage and temperature.
 
-`research/scripts/model.py` (also linked to `try_me/model.py`) provides a thermally coupled $n$ RC model in the `TheveninModel` class. Model parameters are interpolated with respect to state-of-charge (`soc`) and temperature; following literature conventions, we call these lookup tables, or `lut`s. The `__init__` of `TheveninModel` loads in parameters from a CSV file, and builds parameter interpolations for use later. The class also defines a set of differential equations, available from `get_ode_rhs` ('get the right-hand side of the ordinary differential equations') which define the Thevenin model. These are given by
+`research/scripts/model.py` (also linked to `try_me/model.py`) provides a thermally coupled $n$ RC model in the `TheveninModel` class. Model parameters are interpolated with respect to state-of-charge (`soc`) and temperature; following literature conventions, we call these lookup tables, or luts. The `__init__` of `TheveninModel` loads in parameters from a CSV file, and builds parameter interpolations for use later. The class also defines a set of differential equations, available from `get_ode_rhs` ('get the right-hand side of the ordinary differential equations') which define the Thevenin model. These are given by
 ```math
     \begin{align}
         \frac{\mathrm{d}}{\mathrm{d} t} SOC &= \frac{I(t)}{Q_\mathrm{nom}}~,\\
@@ -38,7 +44,7 @@ An equivalent-circuit model and parameters are included with the publication. Pa
         q(t) &= I^2(t) R_0(T, SOC) + \sum_{i=1}^{n_\mathrm{rc}} \frac{v^2_{\mathrm{rc}_i}}{R_i(T, SOC)} - I(t) T(t) \frac{\partial v_\mathrm{oc}}{\partial T}
     \end{align}
 ```
-(see [one of](https://www.sciencedirect.com/science/article/pii/S2352152X25035698) our papers for a full definition of all the variables!).
+(see [one of](https://www.sciencedirect.com/science/article/pii/S2352152X25035698) [our papers](https://www.sciencedirect.com/science/article/pii/S221501612600083X) for a full definition of all the variables!).
 The model is evaluated by calling the `simulate` function
 ```python
     TheveninModel.simulate(
@@ -88,7 +94,7 @@ If you are not in Linux, you can still reproduce the results either by running [
 Clone:
 
 ```bash
-git clone [URL]
+git clone https://github.com/MarkBlyth/parameterisation_methodsx.git
 ```
 
 Enter the directory:
@@ -126,16 +132,10 @@ The scripts can be run using `doit` by manually installing the dependencies (if 
 python3 -m pip install doit scipy numpy matplotlib pandas pybop pybamm openpyxl pytz
 ```
 
-or alternatively,
-
-```bash
-pip install -r requirements.txt
-```
-
 Then proceed as before, to clone and run `doit`:
 
 ```bash
-git clone [URL]
+git clone https://github.com/MarkBlyth/parameterisation_methodsx.git
 cd parameterisation_methodsx
 doit
 ```
