@@ -104,10 +104,10 @@ conda env create -f environment.yml
 conda activate parameterisation_methodsx
 ```
 
-Manually install PyBOP. This is a bit messy, but needs to be done because PyBOP isn't in conda forge (yet). Also note that a standard pip install will cause a conflict with the Casadi package required by PyBaMM, so we need the ignore-installed flag:
+Manually install PyBOP and PyBaMM. This is a bit messy, but needs to be done because PyBOP isn't in conda forge (yet), and installing PyBaMM with conda would cause a Casadi conflict with PyBOP.
 
 ```bash
-pip install pybop --ignore-installed casadi
+pip install pybop pybamm
 ```
 
 Run doit:
@@ -123,7 +123,7 @@ This will run the full parameterisation, and generate every figure from the pape
 The scripts can be run using `doit` by manually installing the dependencies (if they are not already installed):
 
 ```bash
-python3 -m pip install doit scipy numpy matplotlib pandas pybop pybamm openpyxl
+python3 -m pip install doit scipy numpy matplotlib pandas pybop pybamm openpyxl pytz
 ```
 
 or alternatively,
