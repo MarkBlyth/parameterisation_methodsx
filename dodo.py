@@ -180,24 +180,24 @@ def task_combine_ocv_files():
         }
 
 
-def task_compile_doc():
-    fig_deps = task_sync_figures_to_paper()["targets"]
-    fig_deps += [task["targets"][0] for task in task_svg_to_pdf()]
-    return {
-        "actions": [
-            f"cd {DOC_DIR} && pdflatex -shell-escape main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex && cd .."
-        ],
-        "file_dep": [
-            DOC_DIR / "main.tex",
-            DOC_DIR / "method.tex",
-            DOC_DIR / "details.tex",
-            DOC_DIR / "validation.tex",
-            DOC_DIR / "limitations.tex",
-            DOC_DIR / "background.tex",
-            DOC_DIR / "conclusions.tex",
-            DOC_DIR / "references.bib",
-        ]
-        + fig_deps,
-        "targets": [DOC_DIR / "main.pdf"],
-        "verbosity": 2,
-    }
+# def task_compile_doc():
+#     fig_deps = task_sync_figures_to_paper()["targets"]
+#     fig_deps += [task["targets"][0] for task in task_svg_to_pdf()]
+#     return {
+#         "actions": [
+#             f"cd {DOC_DIR} && pdflatex -shell-escape main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex && cd .."
+#         ],
+#         "file_dep": [
+#             DOC_DIR / "main.tex",
+#             DOC_DIR / "method.tex",
+#             DOC_DIR / "details.tex",
+#             DOC_DIR / "validation.tex",
+#             DOC_DIR / "limitations.tex",
+#             DOC_DIR / "background.tex",
+#             DOC_DIR / "conclusions.tex",
+#             DOC_DIR / "references.bib",
+#         ]
+#         + fig_deps,
+#         "targets": [DOC_DIR / "main.pdf"],
+#         "verbosity": 2,
+#     }
