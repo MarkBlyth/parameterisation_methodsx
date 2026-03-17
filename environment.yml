@@ -1,0 +1,15 @@
+name: parameterisation_methodsx
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.12
+  - doit
+  - scipy
+  - numpy
+  - matplotlib
+  - pandas
+  - pybamm
+  - pip
+  - pip:
+    - pybop
