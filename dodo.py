@@ -41,7 +41,7 @@ def task_plot_figures():
         figname = FIGURES_DIR / (name + ".pgf")
         yield {
             "name": name,
-            "actions": ["python " + " ".join((script, gitt_data, "5", str(figname)))],
+            "actions": ["python3 " + " ".join((script, gitt_data, "5", str(figname)))],
             "file_dep": [script, utils, gitt_data],
             "targets": [figname],
         }
@@ -54,7 +54,7 @@ def task_plot_fitting_errors():
     loss_data_2 = str(PROCESSED_DIR / "mlp001_full_pulse_fitting_errors_25degC.csv")
     figname = FIGURES_DIR / "fitting_loss.pgf"
     return {
-        "actions": ["python " + " ".join((script, loss_data_1, loss_data_2, str(figname)))],
+        "actions": ["python3 " + " ".join((script, loss_data_1, loss_data_2, str(figname)))],
         "file_dep": [script, utils, loss_data_1, loss_data_2],
         "targets": [figname],
     }
@@ -70,7 +70,7 @@ def task_plot_wltp_validation():
     figname = FIGURES_DIR / "wltp_validation.pgf"
     return {
         "actions": [
-            "python "
+            "python3 "
             + " ".join(
                 (script, cycler_file, ocv_file, param_file, "2.132", str(figname))
             )
@@ -86,7 +86,7 @@ def task_plot_parameters():
     figname = FIGURES_DIR / "parameters.pgf"
     return {
         "actions": [
-            "python "
+            "python3 "
             + " ".join(
                 (script, param_file, ocv_file, str(figname))
             )
@@ -135,7 +135,7 @@ def task_run_parameteriser_on_full_pulse():
         ],
         "targets": [par_file, ocv_file, mse_file],
         "actions": [
-            f"python {SCRIPTS_DIR / 'run_parameteriser_full_pulse.py'} {data_file} -o {ocv_file} -p {par_file} -e {mse_file} -t 25"
+            f"python3 {SCRIPTS_DIR / 'run_parameteriser_full_pulse.py'} {data_file} -o {ocv_file} -p {par_file} -e {mse_file} -t 25"
         ],
         "verbosity": 2,
     }
@@ -155,7 +155,7 @@ def task_run_parameteriser():
             ],
             "targets": [par_file, ocv_file, mse_file],
             "actions": [
-                f"python {SCRIPTS_DIR / 'run_parameteriser.py'} {data_file} -o {ocv_file} -p {par_file} -e {mse_file} -t {temperature}"
+                f"python3 {SCRIPTS_DIR / 'run_parameteriser.py'} {data_file} -o {ocv_file} -p {par_file} -e {mse_file} -t {temperature}"
             ],
             "verbosity": 2,
         }
