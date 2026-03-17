@@ -1,7 +1,7 @@
 # Contents
 
 * [License](#license)
-* [Project outline](#project-outline)
+* [Project structure](#project-structure)
 * [Using the provided model and parameters](#using-the-provided-model-and-parameters)
 * [Running your own parameterisation](#running-your-own-parameterisation)
 * [Reproducing the paper results](#reproducing-the-paper-results)
