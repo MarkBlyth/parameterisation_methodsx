@@ -1,0 +1,11 @@
+*~undo-tree~
+.doit.db
+__pycache__/
+*pgf
+*pdf
+*png
+*svg
+*tex
+*aux
+*bib
+*blg
