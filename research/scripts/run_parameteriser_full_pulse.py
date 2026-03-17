@@ -144,27 +144,22 @@ def main():
     pulses = pulses[:-3]
     fitting_params = {
         "R0 [Ohm]": pybop.Parameter(
-            prior=pybop.Gaussian(0.2, 0.02, [1e-4, 1]),
             initial_value=0.2,
             bounds=[1e-4, 0.4],
         ),
         "R1 [Ohm]": pybop.Parameter(
-            prior=pybop.Gaussian(0.02, 0.002, [1e-5, 1e-1]),
             initial_value=0.02,
             bounds=[1e-5, 1e-1],
         ),
         "R2 [Ohm]": pybop.Parameter(
-            prior=pybop.Gaussian(0.02, 0.002, [1e-5, 1e-1]),
             initial_value=0.02,
             bounds=[1e-5, 1e-1],
         ),
         "tau1 [s]": pybop.Parameter(
-            prior=pybop.Gaussian(6, 2, [5, 180]),
             initial_value=6,
             bounds=[5, 180],
         ),
         "tau2 [s]": pybop.Parameter(
-            prior=pybop.Gaussian(60, 15, [5, 180]),
             initial_value=60,
             bounds=[5, 180],
         ),
