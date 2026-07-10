@@ -10,6 +10,8 @@
 
 The repo contains everything needed to reproduce the results in the MethodsX paper [*Mark Blyth, Amey Gupta, Alastair Hales: How to parameterise an equivalent-circuit empirical battery model from time-domain data (2026)*](https://www.sciencedirect.com/science/article/pii/S221501612600083X). The following sections explain how the project is licensed, structured, and how to use the code. Read the project structure first, then jump from there to whatever interests you!
 
+This work was supported by the Faraday Institution Multiscale Modelling Project (grant number FIRG084), a Faraday Institution Industry Sprint Project (grant number FISP004), and the European Union’s Horizon Europe programme through the Marie Skłodowska-Curie Actions (Grant Nos. 101131278 and EP/Y036689/1).
+
 
 # License
 This work is released under the GNU GPL v3 license. Loosely, this means the software is free and user-modifiable, however any derivatives must be released under the same license. See LICENSE for more details.
